@@ -1,0 +1,91 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage{graphicx}
+% Use titling to display the title centered on the first page (https://tex.stackexchange.com/questions/290432/vertically-center-title-page-article)
+\usepackage{titling}
+% Use biber and bibLaTeX
+\usepackage[sorting=none, backend=biber]{biblatex}
+\addbibresource{bibliography.bib}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following line
+% to display URLs in blue roman font according to Springer's eBook style:
+% \renewcommand\UrlFont{\color{blue}\rmfamily}
+\setcounter{tocdepth}{3}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+\begin{document}
+%
+\title{Introduction to Membership Inference Attacks}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{Lukas Gehrke, \\
+\email{lg58weky@studserv.uni-leipzig.de} \\
+Leipzig University \\
+}
+%
+\authorrunning{Lukas Gehrke}
+% First names are abbreviated in the running head.
+% If there are more than two authors, 'et al.' is used.
+%
+%
+
+\maketitle
+% typeset the header of the contribution
+%
+
+\tableofcontents
+\newpage
+
+\begin{abstract} 
+    With more and more companies offering Machine Learning as a Service (MLaaS) a novel threat for data breaches has emerged: Membership Inference Attacks aim at identifying the fact that given data instances were among the training data of an openly available machine learning model. A knowledge of fatal consequences, if this membership exposes sensitive data such as diseases or financial dept. This paper gives a general introduction about membership inference attacks. After discussing enabling factors and underlying theory, core studies as well as mitigation strategies are surveyed, followed by an outlook.
+    
+    \keywords{Membership Inference Attacks  \and Machine Learning Security \and Machine Learning as a Service}
+\end{abstract}
+%
+%
+%
+\section{Introduction}
+
+With computers, automation is one of the most simple yet impactful aims that can be achieved.
+Teaching computers to solve complex tasks automatically is hard though, as it requires vast sets of decision rules. Instead, computers are set up to "learn" the rules on their own using a Machine Learning model. Its learning process is based on experience \cite{mitchell1997machine}. The experience is \textbf{data}, called \textit{training data}, which helps the model to be successful at its task.
+
+Thanks to vast scientific efforts, Machine learning is applicable for many tasks nowadays. These range from simple classification of objects to complicated recognition of signals, such as visual or audio detection. Consequently, numerous possibilities for companies have emerged. 
+
+\subsection{Machine Learning as a Service}
+\subsection{Membership Inference}
+
+\section{Membership Inference Attacks}
+\subsection{Formal Definition}
+\subsection{Scientific Experiments}
+\subsection{Mitigation Strategies}
+
+\section{Conclusion}
+\subsection{Summary}
+\subsection{Discussion}
+\subsection{Outlook}
+
+
+
+%
+% ---- Bibliography ----
+%
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+%
+% \bibliographystyle{splncs04}
+% \bibliography{mybibliography}
+%
+
+\printbibliography
+
+\end{document}
