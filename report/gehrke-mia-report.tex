@@ -57,12 +57,16 @@ Leipzig University \\
 \section{Introduction}
 
 With computers, automation is one of the most simple yet impactful aims that can be achieved.
-Teaching computers to solve complex tasks automatically is hard though, as it requires vast sets of decision rules. Instead, computers are set up to "learn" the rules on their own using a Machine Learning model. Its learning process is based on experience \cite{mitchell1997machine}. The experience is \textbf{data}, called \textit{training data}, which helps the model to be successful at its task.
-
-Thanks to vast scientific efforts, Machine learning is applicable for many tasks nowadays. These range from simple classification of objects to complicated recognition of signals, such as visual or audio detection. Consequently, numerous possibilities for companies have emerged. 
+Teaching computers to solve complex tasks automatically is hard though, as it requires vast sets of decision rules. Instead, computers are instructed to "learn" the rules on their own using Machine Learning models. a model's learning process is based on experience \cite{mitchell1997machine}. And this experience comes from \textbf{data}, called \textit{training data}. If with experience, that is to say appropriate data, a model gets better at its task, it is said to have "learned".
 
 \subsection{Machine Learning as a Service}
+
+Thanks to vast scientific efforts, Machine learning is applicable for many use cases nowadays. These range from simple classification of objects to complicated recognition of signals, such as visual or audio detection. Consequently, numerous possibilities for companies have emerged. But infrastructure for machine learning is often expensive, as huge amounts of data have to be stored and transferred and many calculations have to be conducted. To address these problems, the market of Machine Learning as a Service (MLaaS) has emerged \cite{ribeiro2015mlaas}. The idea behind MLaaS is similar to Software as a Service: Remote hardware and software running on it are rented and accessed, so that the user has no need to own them. Examples of companies offering MLaaS are Amazon, Google, IBM or Microsoft. These comapnies already need the infrastructure and knowledge to process huge amounts of data for their own services. With MLaaS, they make additional profit by renting hardware that is not fully occupied.
+
 \subsection{Membership Inference}
+
+With ready-to-use machine learning models being accessible online, a new kind of privacy risk has evolved: The Membership Inference Attack. It asks the simple question, whether a given data record was used to train a machine learning model in question \cite{shokri2017membership}. This leads to critical privacy breaches, if the fact that the underlying instance of the data record was in the training set reveals sensitive data. An example would 
+
 
 \section{Membership Inference Attacks}
 \subsection{Formal Definition}
