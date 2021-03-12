@@ -47,7 +47,7 @@ Leipzig University \\
 \newpage
 
 \begin{abstract} 
-    With more and more companies offering Machine Learning as a Service (MLaaS) a novel threat for data breaches has emerged: Membership Inference Attacks aim at identifying the fact that given data instances were among the training data of an openly available machine learning model. A knowledge of fatal consequences, if this membership exposes sensitive data such as diseases or financial dept. This paper gives a general introduction about membership inference attacks. After discussing enabling factors and underlying theory, core studies as well as mitigation strategies are surveyed, followed by an outlook.
+    With more and more companies offering Machine Learning as a Service (MLaaS) a novel threat of data breaches has emerged: Membership Inference Attacks aim at identifying the fact that given data instances were among the training data of a machine learning model available to an adversary. This knowledge might be of fatal consequences, if the membership exposes sensitive information about people, such as a disease or financial dept. This paper gives a general introduction about membership inference attacks. After discussing enabling factors and underlying theory, core studies as well as mitigation strategies are surveyed, followed by an outlook.
     
     \keywords{Membership Inference Attacks  \and Machine Learning Security \and Machine Learning as a Service}
 \end{abstract}
@@ -57,19 +57,47 @@ Leipzig University \\
 \section{Introduction}
 
 With computers, automation is one of the most simple yet impactful aims that can be achieved.
-Teaching computers to solve complex tasks automatically is hard though, as it requires vast sets of decision rules. Instead, computers are instructed to "learn" the rules on their own using Machine Learning models. a model's learning process is based on experience \cite{mitchell1997machine}. And this experience comes from \textbf{data}, called \textit{training data}. If with experience, that is to say appropriate data, a model gets better at its task, it is said to have "learned".
+Teaching computers to solve complex tasks automatically is hard though, as it requires vast sets of decision rules. Instead, computers are instructed to "learn" the rules on their own using Machine Learning models. A model's learning process is based on experience \cite{mitchell1997machine}, which again comes from \textbf{data}, called \textit{training data}. If with experience, that is to say appropriate data, a model gets better at its task, it is said to have "learned".
 
 \subsection{Machine Learning as a Service}
 
-Thanks to vast scientific efforts, Machine learning is applicable for many use cases nowadays. These range from simple classification of objects to complicated recognition of signals, such as visual or audio detection. Consequently, numerous possibilities for companies have emerged. But infrastructure for machine learning is often expensive, as huge amounts of data have to be stored and transferred and many calculations have to be conducted. To address these problems, the market of Machine Learning as a Service (MLaaS) has emerged \cite{ribeiro2015mlaas}. The idea behind MLaaS is similar to Software as a Service: Remote hardware and software running on it are rented and accessed, so that the user has no need to own them. Examples of companies offering MLaaS are Amazon, Google, IBM or Microsoft. These comapnies already need the infrastructure and knowledge to process huge amounts of data for their own services. With MLaaS, they make additional profit by renting hardware that is not fully occupied.
+Thanks to vast scientific efforts, Machine learning is applicable for many use cases nowadays. These range from simple classification of objects to complicated recognition of signals, such as visual or audio detection. Consequently, numerous possibilities for companies have emerged to improve their products, services or internal processes. However, infrastructure for machine learning is expensive, as huge amounts of data have to be stored and transferred and many calculations have to be conducted. To address these problems, the market of \textbf{Machine Learning as a Service} (MLaaS) has emerged \cite{ribeiro2015mlaas}. The idea behind MLaaS is similar to Software as a Service: A customer has access to remote hardware and software running on this hardware, so that the customer has no need to own them. Examples of companies offering MLaaS are Amazon, Google, IBM or Microsoft. These companies already need the infrastructure and knowledge to process huge amounts of data for their own services. With MLaaS, they make additional profit by renting hardware that is not fully occupied.
 
 \subsection{Membership Inference}
 
-With ready-to-use machine learning models being accessible online, a new kind of privacy risk has evolved: The Membership Inference Attack. It asks the simple question, whether a given data record was used to train a machine learning model in question \cite{shokri2017membership}. This leads to critical privacy breaches, if the fact that the underlying instance of the data record was in the training set reveals sensitive data. An example would 
+With ready-to-use machine learning models being used everywhere and often accessible online, a new kind of privacy risk has evolved: The Membership Inference Attack. Membership Inference asks the simple question, whether a given data record was used to train a machine learning model in question \cite{shokri2017membership}. This leads to critical privacy breaches, if membership in the training dataset allows imply certain facts. For example, when considering a model that uses cellular structure to recommend ideal medicine dosage for a disease, membership of a person's record in the training data reveals that the person is suffering from this very disease.
 
+This report first explains the theoretical foundation of membership inference attacks. Afterwards, already conducted studies about membership inference attacks are surveyed. Finally, mitigation strategies are discussed, followed by a discussion of the practical risk of membership inference attacks.
+
+The explanation of theoretical conduction of a membership inference attack are mainly based on \cite{shokri2017membership}, who first defined the attack concept. They introduced an architecture based on an attack machine learning model and shadow machine learning models which imitate the behavior of the target model and serve as training examples for the attack model.
 
 \section{Membership Inference Attacks}
+
+The idea behind membership inference attacks is to make use of the fact that machine learning models often exploit different behaviors on previously unseen data versus the data they were trained on\footnote{In the following sections, these two sets of data will be referred to as \textit{testing} and \textit{training data}.} \cite{shokri2017membership}. The main reason for this phenomenon is overfitting. \textit{Overfitting} describes the tendency of models to perform significantly better on their training data in comparison to data they have not been trained on \cite{weigend1994overfitting}. That is to say, the model fails to generalize to data records apart from its training data. Often, this effect is caused by training data with low degree of diversity. The model then does not to learn enough information about the underlying population of the data, as its learning sample is not representative. 
+Model selection also influences the success of membership inference: Some models \textit{remember} more details about their training data, leading to more leakage of information.
+
 \subsection{Formal Definition}
+
+\subsubsection{Prerequesits}
+In this report, \textbf{Membership Inference} is defined as the (theoretical) \textit{question}, whether a given data record was part of the training data of a given, ready-to-use machine learning model. A \textbf{Membership Inference Attack} describes the (theoretical) \textit{act} of performing membership inference against a machine learning model the adversary does not know the training data for and which - if successful - leads to potentially harmful privacy breaches.
+
+\subsubsection{Machine Learning Models}
+
+As introduced by Shokri et al. \cite{shokri2017membership}, the basic membership inference attack setup consists of three machine learning models:
+\begin{enumerate}
+    \item The \textit{target model} is the model under attack. The attacker has access to the target model but does not know its exact training dataset.
+    \item The \textit{attack model} performs membership inference by deciding, whether the attack models output using a given record as input, was part of the training dataset of the attack model.
+    \item The \textit{shadow models} imitate the target model as good as possible. They are used to teach the different reactions of the target model to seen and unseen data to the attack model.
+\end{enumerate}
+
+\subsubsection{Attack Definition}
+
+Let $f_{target}()$ be the target model and $f_{attack}()$ be the attack model. $D_{train}^{target}$ is the training dataset of $f_{target}()$, consisting of data records $(x^{i},y^{i})$. Here, $x_{train}^{i}$ is a vector describing an entity and $y_{train}^{i}$ refers to the entities' class with respect to the $f_{target}()$'s task. Assume the number of possible classes for the target model is $c_{target}$. The output of the target model is a vector of values in $[0, 1]$ of size $c_{target}$ with each value indicating the probability that the entitiy in question belongs to the respective class.
+
+\subsubsection{Attack Model Training}
+
+\subsubsection{}
+
 \subsection{Scientific Experiments}
 \subsection{Mitigation Strategies}
 
